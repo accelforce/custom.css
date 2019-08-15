@@ -1,0 +1,17 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/ruby:2.6.3
+    steps:
+      - checkout
+      - run:
+          name: Build
+          command: ruby ./generate.rb
+      - run:
+          name: Comment to GitHub
+          command: "curl -X POST -H \"Authorization: token ${GITHUB_TOKEN}\" \
+            -d \"{\\\"body\\\": \\\"$(cat -E ./custom.css | sed 's/\\$/\\\\n/g' | tr -d \"\\n\")\\\"}\" \
+            \"https://api.github.com/repos/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/commits/${CIRCLE_SHA1}/comments\""
+      - store_artifacts:
+          path: custom.css
