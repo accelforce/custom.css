@@ -16,6 +16,10 @@ File.open("./custom.css", "w") do |file|
         file.write("  background-color: ##{line["bgcolor"]} !important ;\n")
         file.write("  content: '[#{line["name"]}]' !important ;\n")
         file.write("}\n")
+        file.write(".status a[href^='https://#{line["domain"]}/'].u-url.mention {\n")
+        file.write("  color: ##{line["textcolor"]} !important ;\n")
+        file.write("  background-color: ##{line["bgcolor"]} !important ;\n")
+        file.write("}\n")
     end
 end
 
